@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomRaisedButton extends StatelessWidget {
   CustomRaisedButton({
-    this.text,
+    @required this.text,
     this.backgroundColor,
     this.borderRadius,
-    this.onPressed,
+    @required this.onPressed,
     this.fontSize,
     this.textColor,
     this.image,
     this.height,
     this.width,
+    this.disabledColor,
   });
 
   final String text;
@@ -21,6 +22,7 @@ class CustomRaisedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double height, width;
   final Widget image;
+  final Color disabledColor;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class CustomRaisedButton extends StatelessWidget {
       width: width,
       child: RaisedButton(
         color: backgroundColor,
+        disabledColor: disabledColor,
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

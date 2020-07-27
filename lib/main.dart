@@ -1,4 +1,4 @@
-import 'package:TimeTracker/screens/landing_page.dart';
+import 'file:///C:/Users/91999/AndroidStudioProjects/TimeTracker/lib/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/authentication.dart';
 import 'package:provider/provider.dart';

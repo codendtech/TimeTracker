@@ -13,6 +13,9 @@ class PlatformExceptionAlertDialog extends PlatformDialog {
         );
 
   static String _message(PlatformException exception) {
+    if (exception.code == 'PERMISSION_DENIED') {
+      return exception.message;
+    }
     return _errors[exception.code] ?? exception.message;
   }
 

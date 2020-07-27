@@ -10,6 +10,7 @@ class FormSubmitButton extends CustomRaisedButton {
   final double height;
   final double width;
   final double fontSize;
+  final Color disabledColor;
 
   FormSubmitButton({
     @required this.text,
@@ -20,6 +21,7 @@ class FormSubmitButton extends CustomRaisedButton {
     this.height,
     this.width,
     this.fontSize,
+    this.disabledColor,
   }) : super(
           text: text,
           backgroundColor: backGroundColor,
@@ -29,5 +31,6 @@ class FormSubmitButton extends CustomRaisedButton {
           width: width,
           onPressed: onPressed,
           fontSize: fontSize,
+          disabledColor: disabledColor,
         );
 }
