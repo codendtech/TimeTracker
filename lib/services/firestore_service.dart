@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 class FireStoreService {
   FireStoreService._();
   static final instance = FireStoreService._();
+
   Future<void> setData({String path, Map<String, dynamic> data}) async {
     final docRef = Firestore.instance.document(path);
     await docRef.setData(data);

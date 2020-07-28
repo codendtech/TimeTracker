@@ -74,16 +74,25 @@ class JobsPage extends StatelessWidget {
       return StreamBuilder<List<JobModel>>(
         stream: db.jobStream(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final jobsList = snapshot.data;
-            final job = jobsList.map((e) => Text(e.name)).toList();
-            return ListView(
-              children: job,
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.data.length != 0) {
+              final jobsList = snapshot.data;
+              final job = jobsList.map((e) => Text(e.name)).toList();
+              return ListView(
+                children: job,
+              );
+            } else {
+              return Center(
+                child: Text('No Jobs found!'),
+              );
+            }
+          } else {
+            return Center(
+              child: Text('No Jobs found!'),
             );
           }
-          return Center(
-            child: Text('No Jobs found!'),
-          );
         },
       );
     });
