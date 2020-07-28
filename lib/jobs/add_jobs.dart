@@ -28,6 +28,7 @@ class _AddJobsPageState extends State<AddJobsPage> {
   final _formKey = GlobalKey<FormState>();
   String _jobName;
   int _ratePerHour;
+  bool _isLoading = false;
 
   FocusNode _jobNameFocusNode = FocusNode();
   FocusNode _rateFocusNode = FocusNode();
@@ -119,7 +120,7 @@ class _AddJobsPageState extends State<AddJobsPage> {
             maintainState: true,
             maintainSize: false,
             maintainAnimation: true,
-            visible: false,
+            visible: _isLoading ? true : false,
             child: Center(child: CircularProgressIndicator()),
           )
         ],
@@ -137,6 +138,9 @@ class _AddJobsPageState extends State<AddJobsPage> {
   }
 
   Future<void> _submit() async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       if (_validateForm()) {
         final jobs = await widget.database.jobStream().first;
@@ -146,7 +150,7 @@ class _AddJobsPageState extends State<AddJobsPage> {
         }
         if (jobNames.contains(_jobName)) {
           PlatformAlertDialog(
-            title: 'Cannot Create Job',
+            title: 'Cannot Create new Job',
             content:
                 'This job name already exist. Please provide another name.',
             defaultActionText: 'OK',
@@ -164,6 +168,10 @@ class _AddJobsPageState extends State<AddJobsPage> {
         title: 'Operation Failed',
         exception: e,
       ).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 }
