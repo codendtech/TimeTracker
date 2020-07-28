@@ -2,7 +2,7 @@ import 'package:TimeTracker/widgets/platform_alert_dialog.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/services.dart';
 
-class PlatformExceptionAlertDialog extends PlatformDialog {
+class PlatformExceptionAlertDialog extends PlatformAlertDialog {
   final String title;
   final PlatformException exception;
   PlatformExceptionAlertDialog({@required this.title, @required this.exception})

@@ -21,9 +21,9 @@ class EmailSignIn extends StatelessWidget {
           child: Card(
             child: EmailSignInForm.create(context),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
             shadowColor: Colors.grey,
-            elevation: 5.0,
+            elevation: 3.0,
           ),
         ),
       ),

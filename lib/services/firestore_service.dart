@@ -10,11 +10,13 @@ class FireStoreService {
     await docRef.setData(data);
   }
 
-  Stream<List<T>> collectionStream<T>(
-      {@required String path, @required T builder(Map<String, dynamic> data)}) {
+  Stream<List<T>> collectionStream<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+  }) {
     final reference = Firestore.instance.collection(path);
     final snapshot = reference.snapshots();
-    return snapshot
-        .map((event) => event.documents.map((e) => builder(e.data)).toList());
+    return snapshot.map((event) =>
+        event.documents.map((e) => builder(e.data, e.documentID)).toList());
   }
 }

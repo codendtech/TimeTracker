@@ -3,7 +3,7 @@ import 'file:///C:/Users/91999/AndroidStudioProjects/TimeTracker/lib/widgets/pla
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PlatformDialog extends PlatformWidget {
+class PlatformAlertDialog extends PlatformWidget {
   @required
   final String title;
   @required
@@ -12,7 +12,7 @@ class PlatformDialog extends PlatformWidget {
   @required
   final String defaultActionText;
 
-  PlatformDialog({
+  PlatformAlertDialog({
     this.title,
     this.content,
     this.cancelButtonText,
