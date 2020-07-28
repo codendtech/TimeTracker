@@ -1,10 +1,12 @@
 import 'package:TimeTracker/jobs/add_jobs.dart';
+import 'file:///C:/Users/91999/AndroidStudioProjects/TimeTracker/lib/widgets/empty_content_widget.dart';
 import 'package:TimeTracker/jobs/job_list_tile.dart';
 import 'package:TimeTracker/model/job_model.dart';
 import 'package:TimeTracker/services/authentication.dart';
 import 'package:TimeTracker/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/widgets/platform_alert_dialog.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class JobsPage extends StatelessWidget {
@@ -42,26 +44,34 @@ class JobsPage extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data.length != 0) {
-              final jobsList = snapshot.data;
-              final job = jobsList
-                  .map(
-                    (e) => JobListTile(
-                      job: e,
-                      onTap: () => AddJobsPage.show(context, job: e),
-                    ),
-                  )
-                  .toList();
-              return ListView(
-                children: job,
-              );
+              return ListView.separated(
+                  itemCount: snapshot.data.length,
+                  separatorBuilder: (context, index) => Divider(height: 0.5),
+                  itemBuilder: (context, index) {
+                    JobModel job = snapshot.data[index];
+                    return Dismissible(
+                      key: Key('job-${job.id}'),
+                      direction: DismissDirection.endToStart,
+                      background: _deleteBackground(),
+                      onDismissed: (direction) {
+                        _deleteJob(context, job);
+                      },
+                      child: JobListTile(
+                        job: job,
+                        onTap: () => AddJobsPage.show(context, job: job),
+                      ),
+                    );
+                  });
             } else {
-              return Center(
-                child: Text('No Jobs found!'),
+              return EmptyScreen(
+                title: 'Nothing Here.',
+                message: 'Add a new item to get started.',
               );
             }
           } else {
-            return Center(
-              child: Text('No Jobs found!'),
+            return EmptyScreen(
+              title: 'Nothing Here.',
+              message: 'Add a new item to get started.',
             );
           }
         },
@@ -89,5 +99,41 @@ class JobsPage extends StatelessWidget {
     if (didRequested == true) {
       _signOut(context);
     }
+  }
+
+  Future<void> _deleteJob(BuildContext context, JobModel job) async {
+    try {
+      final db = Provider.of<Database>(context, listen: false);
+      db.deleteJob(job);
+    } on PlatformException catch (e) {
+      PlatformAlertDialog(
+        title: 'Operation Failed',
+        content: e.toString(),
+      ).show(context);
+    }
+  }
+
+  Widget _deleteBackground() {
+    return Container(
+      padding: EdgeInsets.only(right: 20.0),
+      height: double.infinity,
+      color: Colors.red,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.delete, color: Colors.white),
+              Text('Delete',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 12.0))
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

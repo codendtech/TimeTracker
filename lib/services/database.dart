@@ -4,6 +4,7 @@ import 'package:TimeTracker/services/firestore_service.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Database {
+  Future<void> deleteJob(JobModel jobModel);
   Future<void> setJob(JobModel job);
   Stream<List<JobModel>> jobStream();
 }
@@ -18,6 +19,12 @@ class FireStoreDatabase extends Database {
   Future<void> setJob(JobModel job) async => await _fireStoreService.setData(
         path: APIPath.createJobPath(uid, job.id),
         data: job.toMap(),
+      );
+
+  @override
+  Future<void> deleteJob(JobModel jobModel) async =>
+      await _fireStoreService.deleteData(
+        path: APIPath.deleteJobPath(uid, jobModel.id),
       );
 
   @override

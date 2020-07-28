@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:TimeTracker/model/job_model.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:TimeTracker/widgets/platform_alert_dialog.dart';
 
 class AddJobsPage extends StatefulWidget {
   const AddJobsPage({@required this.database, this.jobModel});

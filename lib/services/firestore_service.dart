@@ -5,9 +5,16 @@ class FireStoreService {
   FireStoreService._();
   static final instance = FireStoreService._();
 
-  Future<void> setData({String path, Map<String, dynamic> data}) async {
+  Future<void> setData(
+      {@required String path, Map<String, dynamic> data}) async {
     final docRef = Firestore.instance.document(path);
     await docRef.setData(data);
+  }
+
+  Future<void> deleteData({@required String path}) async {
+    final docRef = Firestore.instance.document(path);
+    await docRef.delete();
+    print(path);
   }
 
   Stream<List<T>> collectionStream<T>({
