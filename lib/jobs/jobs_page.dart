@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:TimeTracker/widgets/platform_alert_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class JobsPage extends StatelessWidget {
   @override
@@ -49,17 +50,34 @@ class JobsPage extends StatelessWidget {
                   separatorBuilder: (context, index) => Divider(height: 0.5),
                   itemBuilder: (context, index) {
                     JobModel job = snapshot.data[index];
-                    return Dismissible(
-                      key: Key('job-${job.id}'),
-                      direction: DismissDirection.endToStart,
-                      background: _deleteBackground(),
-                      onDismissed: (direction) {
-                        _deleteJob(context, job);
-                      },
+                    return Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.20,
                       child: JobListTile(
                         job: job,
-                        onTap: () => AddJobsPage.show(context, job: job),
+                        onTap: () {},
                       ),
+                      actions: <Widget>[
+                        IconSlideAction(
+                            caption: 'Share',
+                            icon: Icons.share,
+                            color: Colors.green[900],
+                            onTap: () {}),
+                      ],
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Edit',
+                          icon: Icons.edit,
+                          color: Colors.blue,
+                          onTap: () => AddJobsPage.show(context, job: job),
+                        ),
+                        IconSlideAction(
+                          caption: 'Delete',
+                          icon: Icons.delete,
+                          color: Colors.red,
+                          onTap: () => _deleteJob(context, job),
+                        ),
+                      ],
                     );
                   });
             } else {
@@ -111,29 +129,5 @@ class JobsPage extends StatelessWidget {
         content: e.toString(),
       ).show(context);
     }
-  }
-
-  Widget _deleteBackground() {
-    return Container(
-      padding: EdgeInsets.only(right: 20.0),
-      height: double.infinity,
-      color: Colors.red,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(Icons.delete, color: Colors.white),
-              Text('Delete',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 12.0))
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }

@@ -16,6 +16,8 @@ dependencies:
   flutter_facebook_login: ^2.0.1
   provider:
   cloud_firestore: ^0.13.7
+  flutter_slidable:
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

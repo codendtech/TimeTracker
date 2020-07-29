@@ -1,3 +1,4 @@
+import 'package:TimeTracker/model/entry.dart';
 import 'package:TimeTracker/model/job_model.dart';
 import 'package:TimeTracker/services/api_path.dart';
 import 'package:TimeTracker/services/firestore_service.dart';
@@ -29,6 +30,14 @@ class FireStoreDatabase extends Database {
 
   @override
   Stream<List<JobModel>> jobStream() => _fireStoreService.collectionStream(
-      path: APIPath.readJobsPath(uid),
-      builder: (data, documentID) => JobModel.fromMap(data, documentID));
+        path: APIPath.readJobsPath(uid),
+        builder: (data, documentID) => JobModel.fromMap(data, documentID),
+      );
+
+  @override
+  Future<void> setEntry(EntryModel entry) async =>
+      await _fireStoreService.setData(
+        path: APIPath.entry(uid, entry.id),
+        data: entry.toMap(),
+      );
 }

@@ -1,8 +1,8 @@
+import 'package:TimeTracker/jobs/jobs_page.dart';
 import 'package:TimeTracker/services/authentication.dart';
 import 'package:TimeTracker/signIn/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'file:///C:/Users/91999/AndroidStudioProjects/TimeTracker/lib/jobs/jobs_page.dart';
 import 'package:TimeTracker/services/database.dart';
 
 class LandingPage extends StatelessWidget {
